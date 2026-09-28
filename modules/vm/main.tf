@@ -71,16 +71,21 @@ resource "azurerm_linux_virtual_machine" "vm_devops" {
     name = "${each.value}-machine"
     resource_group_name = var.resource_group_name
     location = var.location
-    size = var.size_servers
+    size = lookup(var.size_by_server, each.value, var.size_servers)
     network_interface_ids = [azurerm_network_interface.devops_nic[each.value].id]
     disable_password_authentication = false
     admin_username = var.user
     admin_password = var.password
 
+    admin_ssh_key {
+        username   = var.user
+        public_key = var.ssh_public_key
+    }
+
     source_image_reference {
         publisher = "Canonical"
-        offer = "UbuntuServer"
-        sku = "16.04-LTS"
+        offer = "0001-com-ubuntu-server-jammy"
+        sku = "22_04-lts-gen2"
         version = "latest"
     }
 

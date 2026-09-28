@@ -20,7 +20,9 @@ resource "azurerm_subnet" "main" {
 module "vm" {
     source = "./modules/vm"
     servers = var.servers
-    size_servers = "Standard_DS1_v2"
+    size_servers = var.size_servers
+    size_by_server = var.size_by_server
+    ssh_public_key = file(pathexpand(var.ssh_public_key_path))
     resource_group_name = azurerm_resource_group.main.name
     location = azurerm_resource_group.main.location
     subnet_id = azurerm_subnet.main.id

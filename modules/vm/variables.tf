@@ -38,3 +38,13 @@ variable "prefix_name" {
     type = string
     description = "prefijo de los recursos"
 }
+variable "size_by_server" {
+    type = map(string)
+    default = {}
+    description = "tamaño de instancia por servidor (sobrescribe size_servers)"
+}
+
+variable "ssh_public_key" {
+    type = string
+    description = "llave publica ssh para el usuario admin"
+}
